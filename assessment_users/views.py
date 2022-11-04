@@ -13,8 +13,12 @@ from django.contrib.auth.models import User
 
 def home(request):
 	products = Products.objects.all()
-	cartval=UserCart.objects.filter(customer=request.user)
-	context = {'products':products,'cartlen':len(cartval)}
+	try:
+		cartval=UserCart.objects.filter(customer=request.user)
+		cartval=len(cartval)
+	except:
+		cartval=0
+	context = {'products':products,'cartlen':cartval}
 	return render(request, 'userhome.html', context)
 
 
@@ -61,7 +65,7 @@ def user_logout_view(request):
     logout(request)
     return redirect('userlogin')
 
-
+@login_required
 def add_to_cart(request):
     if request.method == 'POST':
         item_code=request.POST.get('item_id')
@@ -81,7 +85,7 @@ def add_to_cart(request):
         
         return JsonResponse({'message':'success','cartval':len(cartval)})
 
-
+@login_required
 def usercart(request):
 	cartval=UserCart.objects.filter(customer=request.user)
 	gtot=0
@@ -94,7 +98,7 @@ def usercart(request):
 	}
 	return render(request,'usercart.html',context)
 
-
+@login_required
 def add_from_cart(request):
     if request.method == 'POST':
         item_code=request.POST.get('item_id')
@@ -119,7 +123,7 @@ def add_from_cart(request):
         
         return JsonResponse({'message':'success','cartval':len(cartval),'total':ob2.total,'qty':ob2.quantity,'gtot':gtot})
 
-
+@login_required
 def remove_from_cart(request):
 	if request.method == 'POST':
 		item_code=request.POST.get('item_id')
