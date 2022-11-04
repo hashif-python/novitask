@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{%load static%}
+
+{% block content %}
+			<div class="pd-ltr-20 xs-pd-20-10">
+				<div class="min-height-200px">
+					<div class="page-header">
+						<div class="row">
+							<div class="col-md-6 col-sm-12">
+								<div class="title">
+									<h4>{%if prod.item_name%}
+										Edit Product
+										{%else%}
+										Add Product
+										{%endif%}
+								</h4>
+								</div>
+								<nav aria-label="breadcrumb" role="navigation">
+									<ol class="breadcrumb">
+										<li class="breadcrumb-item">
+											<a href="{%url 'view_products'%}">View Products</a>
+										</li>
+										<li class="breadcrumb-item active" aria-current="page">
+											{%if prod.item_name%}
+											Edit Product
+											{%else%}
+											Add Product
+											{%endif%}
+										</li>
+									</ol>
+								</nav>
+							</div>
+
+						</div>
+					</div>
+					<!-- Default Basic Forms Start -->
+					<div class="pd-20 card-box mb-30">
+						<form method="POST" enctype="multipart/form-data">
+							{%csrf_token%}
+						<div class="clearfix">
+							<div class="pull-left">
+								{%if prod.item_name%}
+								<h4 class="text-blue h4">Edit The Product</h4>
+								<p class="mb-30">Edit the form and submit</p>
+								{%else%}
+								<h4 class="text-blue h4">Add Product</h4>
+								<p class="mb-30">Fill the form and submit</p>
+								{%endif%}
+							</div>
+							<div class="pull-right">
+								<input type="submit" class="btn btn-primary btn-sm scroll-click" value="Submit" >
+
+							</div>
+						</div>
+
+
+
+
+
+
+							<div class="form-group row">
+								<label class="col-sm-12 col-md-2 col-form-label"
+									>Item Name</label
+								>
+								<div class="col-sm-12 col-md-10">
+									<input
+										class="form-control"
+
+										type="text"
+										name="item_name"
+										value="{{prod.item_name}}"
+									/>
+								</div>
+							</div>
+							
+							<div class="form-group row">
+								<label class="col-sm-12 col-md-2 col-form-label">Price</label>
+								<div class="col-sm-12 col-md-10">
+									<input class="form-control"  type="text"
+										name="price" value="{{prod.amount}}" />
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-sm-12 col-md-2 col-form-label">Image</label>
+								<div class="col-sm-12 col-md-10">
+									{%if prod.image%}
+									<a href="{{prod.image.url}}">View Image</a>
+
+									<input class="form-control"  type="file"
+										name="image"  />
+									{%else%}
+									<input class="form-control"  type="file"
+										name="image"  />
+									{%endif%}
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-12 col-md-2 col-form-label">Active</label>
+								<div class="col-sm-12 col-md-10">
+									{%if prod.is_active%}
+									<input checked type="checkbox"  name="status" id="status" value="1">
+									<input hidden
+										class="form-control "
+										type="text" name="statusval" id="statusval"
+									/>
+									{%else%}
+									<input  type="checkbox"  name="status" id="status" value="0">
+
+									<input hidden
+										class="form-control "
+										type="text" name="statusval" id="statusval"
+									/>
+									{%endif%}
+								</div>
+							</div>
+
+
+
+						</form>
+
+					</div>
+					<!-- Default Basic Forms End -->
+
+
+					<!-- horizontal Basic Forms End -->
+
+
+
+			</div>
+		</div>
+		<script type="text/javascript">
+			document.getElementsByClassName('ad3')[0].classList.add('active');
+		</script>
+		<script>
+        $(document).on('click','#status',function(){
+          var isChecked = $(this).is(':checked');
+          var d =isChecked;
+          console.log(d)
+          $('#statusval').val(d).change();
+        });
+        </script>
+
+{%endblock%}

@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block content %}
+<style>
+    .switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+    height: 14px;
+    width: 14px;
+    left: 4px;
+    bottom: 3px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(17px);
+  -ms-transform: translateX(17px);
+  transform: translateX(17px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
+
+
+
+<div class="pd-ltr-20 xs-pd-20-10">
+				<div class="min-height-200px">
+
+
+					<!-- Striped table start -->
+					<div class="pd-20 card-box mb-30">
+						<div class="row mb-20">
+						    <div class="col-md-6 d-flex align-items-center">
+						        <h4 class="text-blue h4 mb-0">View Products</h4>
+						    </div>
+						    <div class="col-md-6 text-right">
+						        
+						        <div class="d-inline">
+						            <a href="{%url 'add_products' %}" class="btn btn-primary btn-sm scroll-click" >Add New</a>
+						        </div>
+						    </div>
+						</div>
+						<div class="table-responsive">
+						    <table class="table table-striped">
+							<thead>
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Product Name</th>
+									<th scope="col">Price</th>
+									<th scope="col">Status</th>
+						
+									<th scope="col"></th>
+									<th scope="col"></th>
+								</tr>
+							</thead>
+							<tbody>
+								{%for i in ob5%}
+								<tr>
+									<th scope="row">{{i.slno}}</th>
+									<td>{{i.item_name}}</td>
+									<td>₹ {{i.amount}}</td>
+									
+									<td>{{i.is_active}}</td>
+                                  
+									<td><span class="btn btn-sm btn-primary"><a style="color:white;" href="{%url 'edit_product' i.id%}">View/Edit</a></span></td>
+									<td><span class="btn btn-sm btn-danger"><a style="color:white;" href="{%url 'delete_product' i.id%}">Delete</a></span></td>
+								</tr>
+								{%endfor%}
+							</tbody>
+						</table>
+						</div>
+                      
+					</div>
+
+					<!-- Striped table End -->
+
+					<!-- Contextual classes Start -->
+
+					<!-- Contextual classes End -->
+				</div>
+
+			</div>
+
+<script type="text/javascript">
+
+	document.getElementsByClassName('ad3')[0].classList.add('active');
+</script>
+<!--
+<script>
+function stat(obj) {
+  var id = obj.id;
+  var stat = ($(obj).is(":checked"))
+
+  $.ajax({
+              type: 'POST',
+              url: '/restaurant/change_prod_stat',
+              data: {
+
+                  'item_id':id,
+                  'stat':stat,
+
+
+                  'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+
+              },
+              success: function(response) {
+
+                  console.log('success',response)
+
+              },
+              error: function(response) {
+                  console.log('error', response)
+              }
+        })
+
+}
+</script>
+<script type="text/javascript">
+  function searchprod(obj) {
+        var search = $('#searchtext').val();;
+
+        window.location.href = ''+search;
+
+      }
+
+</script>-->
+{%endblock%}

@@ -1,0 +1,59 @@
+{% extends 'userbase.html' %}
+{% load static %}
+{% block content %}
+	<div class="row">
+		{% for product in products %}
+		<div class="col-lg-4">
+			<img class="thumbnail" src="{{product.image.url}}">
+			<div class="box-element product">
+				<h6><strong>{{product.item_name}}</strong></h6>
+				<hr>
+				<form id="{{product.id}}" action="{%url 'add_to_cart' %}" method="POST" class="addtocrt">
+					{%csrf_token%}
+				
+
+				<button type="submit" class="btn btn-outline-secondary ">Add to Cart</button>
+				
+				
+				<h4 style="display: inline-block; float: right"><strong>${{product.amount}}</strong></h4>
+				</form>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+
+ <script>
+
+      
+      $('.addtocrt').submit(function (event) {
+        event.preventDefault();
+        
+       const item_id = $(this).attr('id')
+       const url = $(this).attr('action')
+
+       $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: {
+
+                        'item_id':item_id,
+
+                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                        
+                    },
+                    success: function(response) {
+                        console.log(response.cartval)
+
+                        $(`#cart-total`).text(response.cartval)
+                        
+                    },
+                    error: function(response) {
+                        console.log('error', response)
+                    }
+                })
+     
+
+
+      });
+      </script>
+{% endblock content %}
